@@ -1,0 +1,26 @@
+[
+  {
+    "id": 3,
+    "name": "Prueba",
+    "author": "Alberto Soto",
+    "price": 1
+  },
+  {
+    "id": 2,
+    "name": "Camino del infierno",
+    "author": "Alberto Soto",
+    "price": 155
+  },
+  {
+    "id": 4,
+    "name": "Prueba3",
+    "author": "Alberto Soto",
+    "price": 1
+  },
+  {
+    "id": 5,
+    "name": "Camino del infierno",
+    "author": "Alberto Soto",
+    "price": 155
+  }
+]

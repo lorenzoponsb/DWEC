@@ -1,0 +1,116 @@
+[
+  {
+    "id": 8,
+    "name": "Micro 1",
+    "description": "Evento de prueba",
+    "startDate": "2016-02-16 01:00",
+    "endDate": null,
+    "eventType": {
+      "itemValue": "MICROCICLE",
+      "itemLabel": "microcicle"
+    },
+    "status": {
+      "itemValue": "NOT_DEFINED",
+      "itemLabel": "not defined"
+    },
+    "eventGroup": null,
+    "content": {
+      "data": [
+        {
+          "conceptType": {
+            "itemValue": "INTENSITY",
+            "itemLabel": "intensity"
+          },
+          "value": 7,
+          "label": "Prueba",
+          "note": "Loren ipsum"
+        },
+        {
+          "conceptType": {
+            "itemValue": "VOLUME",
+            "itemLabel": "volume"
+          },
+          "value": 6,
+          "label": "Prueba",
+          "note": "Loren ipsum"
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "name": "Micro 2",
+    "description": "Evento de prueba",
+    "startDate": "2016-02-24 01:00",
+    "endDate": null,
+    "eventType": {
+      "itemValue": "MICROCICLE",
+      "itemLabel": "microcicle"
+    },
+    "status": {
+      "itemValue": "NOT_DEFINED",
+      "itemLabel": "not defined"
+    },
+    "eventGroup": null,
+    "content": {
+      "data": [
+        {
+          "conceptType": {
+            "itemValue": "INTENSITY",
+            "itemLabel": "intensity"
+          },
+          "value": 4,
+          "label": "Prueba",
+          "note": "Loren ipsum"
+        },
+        {
+          "conceptType": {
+            "itemValue": "VOLUME",
+            "itemLabel": "volume"
+          },
+          "value": 5,
+          "label": "Prueba",
+          "note": "Loren ipsum"
+        }
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "name": "Micro 3",
+    "description": "Evento de prueba",
+    "startDate": "2016-03-03 01:00",
+    "endDate": null,
+    "eventType": {
+      "itemValue": "MICROCICLE",
+      "itemLabel": "microcicle"
+    },
+    "status": {
+      "itemValue": "NOT_DEFINED",
+      "itemLabel": "not defined"
+    },
+    "eventGroup": null,
+    "content": {
+      "data": [
+        {
+          "conceptType": {
+            "itemValue": "INTENSITY",
+            "itemLabel": "intensity"
+          },
+          "value": 8,
+          "label": "Prueba",
+          "note": "Loren ipsum"
+        },
+        {
+          "conceptType": {
+            "itemValue": "VOLUME",
+            "itemLabel": "volume"
+          },
+          "value": 8,
+          "label": "Prueba",
+          "note": "Loren ipsum"
+        }
+      ]
+    }
+  }
+]
