@@ -1731,13 +1731,58 @@ $(document).ready(function () {
 
   // {setAutoOffsets:false}
 
-  console.log(getAmChartsData());
+ // console.log(getAmChartsData());
 
-  var grafica = new  $.coachGate.draggableChart($('#am-graph'),chartOptions,{});
+  var grafica = new  $.dwecProject.draggableChart($('#am-graph'),chartOptions,{});
  /* console.log("INICIA!!!");
  console.log(grafica.data());
  console.log($('#am-graph').getCoachGate_Chart());*/
-  console.log(grafica)
+ // console.log(grafica)
+
+
+  var tmp = {"dataProvider": [
+    {
+      "date": "16/02/2016",
+      "id": 14,
+      "INTENSITY": 7,
+      "VOLUME": 6
+    },
+    {
+      "date": "16/02/2016",
+      "id": 15,
+      "INTENSITY": 7,
+      "VOLUME": 6
+    },
+    {
+      "date": "16/02/2016",
+      "id": 16,
+      "INTENSITY": 7,
+      "VOLUME": 6
+    },
+    {
+      "date": "16/02/2016",
+      "id": 17,
+      "INTENSITY": 7,
+      "VOLUME": 6
+    }
+  ],
+    "graphs": [
+      {
+        "lineColor": "#a312b7",
+        "bullet": "round",
+        "title": "intensity",
+        "valueField": "INTENSITY",
+        "type": "smoothedLine"
+      },
+      {
+        "lineColor": "#723945",
+        "bullet": "round",
+        "title": "volume",
+        "valueField": "VOLUME",
+        "type": "smoothedLine"
+      }
+    ]};
+  console.log(grafica);
 
   $('#btnOn').click(function(){
     grafica.options.draggable = true;

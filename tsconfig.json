@@ -2,42 +2,6 @@
   "dataProvider": [
     {
       "date": "16/02/2016",
-      "id": 8,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    },
-    {
-      "date": "24/02/2016",
-      "id": 9,
-      "INTENSITY": 4,
-      "VOLUME": 5
-    },
-    {
-      "date": "03/03/2016",
-      "id": 10,
-      "INTENSITY": 8,
-      "VOLUME": 8
-    },
-    {
-      "date": "16/02/2016",
-      "id": 11,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    },
-    {
-      "date": "16/02/2016",
-      "id": 12,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    },
-    {
-      "date": "16/02/2016",
-      "id": 13,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    },
-    {
-      "date": "16/02/2016",
       "id": 14,
       "INTENSITY": 7,
       "VOLUME": 6

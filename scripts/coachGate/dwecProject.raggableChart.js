@@ -3,36 +3,67 @@
  *
  * Description:
  *
- *    This plugin extends for amCharts.js and implements draggable options on bullets.
- *
- * Triggers:
- *
- *    DraggableChartRefresh:
- *
- *        Description: It's launched when the rounded values are changed and is different of the last value
- *                     or then mouse up if the element has been dragged.
- *        Contains:
- *            {
- *               chart: is the amChart object,
- *               object: the actual content of dataProvider,
- *               index: index of dataProvider array,
- *               valueField: the object changed,
- *               value: the new value
- *            }
+ *    - This plugin extends for amCharts.js and implements draggable options on bullets.
  *
  * Requires:
  *
- *    jquery.js                     // http://code.jquery.com/jquery-2.2.1.min.js
- *    DWEC-globalFunctions.js       // DWEC-globalFunctions.js
- *    amcharts.js                   // https://www.amcharts.com/lib/3/amcharts.js
- *    serial.js                     // https://www.amcharts.com/lib/3/serial.js
+ *    - jquery.js                 // http://code.jquery.com/jquery-2.2.1.min.js
+ *    - dwecProject-globalFunctions.js   // dwecProject-globalFunctions.js
+ *    - amcharts.js               // https://www.amcharts.com/lib/3/amcharts.js
+ *    - serial.js                 // https://www.amcharts.com/lib/3/serial.js
+ *
+ * Triggers:
+ *
+ *    - DraggableChartRefresh:
+ *
+ *        - Description: It's launched when the rounded values are changed and is different of the last value
+ *                     or then mouse up if the element has been dragged.
+ *        - Contains:
+ *            {
+ *               chart,       // Is the amChart object,
+ *               object,      // The actual content of dataProvider,
+ *               index,       // Index of dataProvider array,
+ *               valueField,  // The object changed,
+ *               value        // The new value
+ *            }
+ *
+ * Examples:
+ *
+ *    - var data = {"dataProvider":[{"date":"16/02/2016","id":14,"INTENSITY":7,"VOLUME":6},{"date":"16/02/2016","id":15,"INTENSITY":7,"VOLUME":6},{"date":"16/02/2016","id":16,"INTENSITY":7,"VOLUME":6},{"date":"16/02/2016","id":17,"INTENSITY":7,"VOLUME":6}],"graphs":[{"lineColor":"#a312b7","bullet":"round","title":"intensity","valueField":"INTENSITY","type":"smoothedLine"},{"lineColor":"#723945","bullet":"round","title":"volume","valueField":"VOLUME","type":"smoothedLine"}]}
+ *
+ *    - $('#id').dwecProjectDraggableChart(data,{});
+ *    - $.dwecProject.draggableChart($('#id'), data, {debugMode: true});
+ *
+ * Default options:
+ *
+ *    - 'debugMode': true,        // If is true, yo can see the errors on the console.
+ *    - 'maxLevelMessageShow': 3, // Specific the max level to show on the console.
+ *    - 'showOneLevel': false,    // If you only want see one level
+ *    - 'maxValue': 10,           // Max value than you can drag.
+ *    - 'minValue': 0,            // Min value than you can drag.
+ *    - 'setAutoOffsets': true,   // You see all positions when you can drag and add the valueOffsets.
+ *    - 'valueOffsets': 20,       // Specific the % when yo see on the offsets.
+ *    - 'draggable': true,        // Specific if the chart is draggable or not.
+ *    - 'triggers': true          // Triggers enabled or not.
+ *
+ * Returnaments:
+ *
+ *    - $el{}             // Contains the jQuery object thay you sent.
+ *    - el{}              // The simple selector.
+ *    - init()            // Restart the plugin.
+ *    - actualGraph{}     // The current chart dragged.
+ *    - amChart{}         // AmCharts object.
+ *    - data()            // If you not send var, return the actual data else refresh chart of new data.
+ *    - amChartOptions{}  // The all syntax that you create the amChart.
+ *    - options{}         // The options when you initialised plugin.
  *
  */
-/*jshint strict: true */
+
+'use strict';
 (function ($) {
-  'use strict';
-  if (!$.DWEC) {
-    $.DWEC = {};
+
+  if (!$.dwecProject) {
+    $.dwecProject = {};
   }
 
   /**
@@ -40,24 +71,24 @@
    * @param el: jQuery object.
    * @param amChart: data of amChart.
    * @param options: options to override.
-     */
-  $.DWEC.draggableChart = function (el, amChart, options) {
+   */
+  $.dwecProject.draggableChart = function (el, amChart, options) {
 
     var base = this;  // Reference to currrent object
     base.$el = $(el); // Reference to jquery DOM object
     base.el = el;     // Selector
-    base.$el.data('DWEC.DraggableChart', base); // Add a reverse reference to the DOM object
+    base.$el.data('dwecProject.DraggableChart', base); // Add a reverse reference to the DOM object
 
     /**
      * Start the project
-     * @returns {{amChart: *, data: $.DWEC.draggableChart.api.data, graphs: $.DWEC.draggableChart.api.graphs, options: *}}
+     * @returns {{amChart: *, data: $.dwecProject.draggableChart.api.data, graphs: $.dwecProject.draggableChart.api.graphs, options: *}}
      */
     base.init = function () {
       try {
-        base.options = $.extend(true, {}, $.DWEC.draggableChart.defaultOptions, options);
-        base.amChartOptions = $.extend(true, {}, $.DWEC.draggableChart.amChart, amChart);
-        if(!base.$el.attr('id')){
-          base.$el.attr('id', getRandomName());
+        base.options = $.extend(true, {}, $.dwecProject.draggableChart.defaultOptions, options);
+        base.amChartOptions = $.extend(true, {}, $.dwecProject.draggableChart.amChart, amChart);
+        if (!base.$el.attr('id')) {
+          base.$el.attr('id', $.dwecProject.gFunctions.getRandomName("dwecProject-Draggable"));
         }
         base.amChart = window.AmCharts.makeChart(base.$el.attr('id'), base.amChartOptions);
         initCustomAfterAmChart();
@@ -72,7 +103,7 @@
     /**
      * Create all plugin listeners
      */
-    function initListeners () {
+    function initListeners() {
 
       base.actualGraph = false;         // Contains data of the current graph
       base.amChart.mouseIsDown = false; // Set default value of event
@@ -162,11 +193,11 @@
      * Render amChart options after init base.amChart
      * Show 20% more on the max and min values of chart
      */
-    function initCustomAfterAmChart () {
+    function initCustomAfterAmChart() {
 
       try {
         if (base.options.setAutoOffsets) {
-          var percent = base.options.maxValue * (base.options.valueOffsets/100);
+          var percent = base.options.maxValue * (base.options.valueOffsets / 100);
 
           if (typeof (base.amChart.valueAxes) === 'object' && base.amChart.valueAxes.length === 0) {
             base.amChart.valueAxes = [
@@ -191,7 +222,7 @@
      * Sets true or false if in draggable mode show or not vibrating effect
      * @param boolean
      */
-    function hideOrShowOnDragable (boolean) {
+    function hideOrShowOnDragable(boolean) {
 
       try {
 
@@ -221,7 +252,7 @@
     /**
      * Update point dragged on amChart
      */
-    function updatePositionAmChart () {
+    function updatePositionAmChart() {
 
       try {
         if (!base.actualGraph || !base.options.draggable) {
@@ -276,8 +307,8 @@
     /**
      * If debug mode is on, show messages on console.
      * @param level
-       */
-    function showMessage (level) {
+     */
+    function showMessage(level) {
 
       try {
         if (typeof (level) === 'number' && !base.options.debugMode || level > base.options.maxLevelMessageShow || (base.options.showOneLevel && level !== base.options.maxLevelMessageShow)) {
@@ -288,22 +319,15 @@
         console.log('%cERROR base.options.debugMode()', 'background: #fff; color: #000', e);
       }
 
-      $.DWEC.gFunctions.showMessage('draggableChart', arguments);
+      $.dwecProject.gFunctions.showMessage('draggableChart', arguments);
     }
 
-    /**
-     * Get a random name
-     * @returns {*}
-     */
-    function getRandomName () {
-      return "DWEC-Draggable" + Math.floor(Math.random() * 500000);
-    }
 
     /**
      * Change or return the dataProvider of the amChart object
      * @param newData
      * @returns {*}
-       */
+     */
     base.data = function (newData) {
 
       if (arguments.length === 0) {
@@ -314,10 +338,15 @@
       base.amChart.validateData();
     };
 
+    // Initialise the plugin
     base.init();
   };
 
-  $.DWEC.draggableChart.amChart = {
+  /**
+   * Contains the default chart style
+   * @type {{type: string, theme: string, legend: {useGraphSettings: boolean}, valueAxes: *[], chartCursor: {pan: boolean, zoomable: boolean, valueLineEnabled: boolean, valueLineBalloonEnabled: boolean, cursorAlpha: number, valueLineAlpha: number, cursorColor: string}, addClassNames: boolean, categoryField: string}}
+   */
+  $.dwecProject.draggableChart.amChart = {
     'type': 'serial',
     'theme': 'light',
     'legend': {
@@ -342,40 +371,39 @@
   };
 
   /**
-   * Contains all default options
-   * @type {{maxValue: number, minValue: number, debugMode: boolean, show: boolean, amChart: {type: string, theme: string, legend: {useGraphSettings: boolean}, chartCursor: {pan: boolean, zoomable: boolean, valueLineEnabled: boolean, valueLineBalloonEnabled: boolean, cursorAlpha: number, valueLineAlpha: number}, addClassNames: boolean, dataProvider: Array, graphs: Array, categoryField: string}}}
+   * Contains all specific plugin default options
+   * @type {{debugMode: boolean, maxLevelMessageShow: number, showOneLevel: boolean, maxValue: number, minValue: number, setAutoOffsets: boolean, valueOffsets: number, draggable: boolean, triggers: boolean}}
    */
-  $.DWEC.draggableChart.defaultOptions = {
-    'debugMode': true,
-    'maxLevelMessageShow': 3,
-    'showOneLevel': false,
-    'maxValue': 10,
-    'minValue': 0,
-    'setAutoOffsets': true,
-    'valueOffsets': 20,
-    'draggable': true,
-    'height': '500px',
-    'triggers': true
+  $.dwecProject.draggableChart.defaultOptions = {
+    'debugMode': false,       // If is true, yo can see the errors on the console.
+    'maxLevelMessageShow': 3, // Specific the max level to show on the console.
+    'showOneLevel': false,    // If you only want see one level
+    'maxValue': 10,           // Max value than you can drag.
+    'minValue': 0,            // Min value than you can drag.
+    'setAutoOffsets': true,   // You see all positions when you can drag and add the valueOffsets.
+    'valueOffsets': 20,       // Specific the % when yo see on the offsets.
+    'draggable': true,        // Specific if the chart is draggable or not.
+    'triggers': true          // Triggers enabled or not.
   };
 
   /**
-   * Create all objects on $('.nameClass').DWECDraggableChart(AmChartOptions,{});
+   * Create all objects on $('.nameClass').dwecProjectDraggableChart(AmChartOptions,{});
    * @param amChart
    * @param options
    * @returns {*}
-     */
-  $.fn.DWECDraggableChart = function (amChart, options) {
+   */
+  $.fn.dwecProjectDraggableChart = function (amChart, options) {
     return this.each(function () {
-       $.DWEC.draggableChart(this, amChart, options);
+      $.dwecProject.draggableChart(this, amChart, options);
     });
   };
 
   /**
-   * Return if exist chart of the jQuery object: $('.nameClass').getDWECDraggableChart();
+   * Return if exist chart of the jQuery object: $('.nameClass').getdwecProjectDraggableChart();
    * @returns {*}
    */
-  $.fn.getDWECDraggableChart = function () {
-    return this.data('DWEC.DraggableChart');
+  $.fn.getdwecProjectDraggableChart = function () {
+    return this.data('dwecProject.DraggableChart');
   };
 
 })(window.jQuery);

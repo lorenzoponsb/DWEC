@@ -8,10 +8,14 @@
  * Description: this file contains all globals functions that other plugins can use
  *
  */
-(function (DWEC) {
-  'use strict';
-  $.DWEC = {};
-  $.DWEC.gFunctions = {
+
+'use strict';
+(function ($) {
+
+  if (!$.dwecProject) {
+    $.dwecProject = {};
+  }
+  $.dwecProject.gFunctions = {
 
     /**
      * Print on console.log() with styles
@@ -35,7 +39,7 @@
      * Usage:
      *
      *    base.showMessage = function(){
-     *        DWEC.gFunctions.showMessage("PluginName", arguments);
+     *        dwecProject.gFunctions.showMessage("PluginName", arguments);
      *    };
      *
      * @param pluginName
@@ -96,12 +100,12 @@
       var defaultC = 3;
 
       try {
-        if (DWEC.gFunctions.isNumber(args[0])) {
+        if (dwecProject.gFunctions.isNumber(args[0])) {
           defaultC = args[0];
           ini++;
         }
 
-        console.groupCollapsed('%cDWEC.' + pluginName + ':', getColor(defaultC));
+        console.groupCollapsed('%cdwecProject.' + pluginName + ':', getColor(defaultC));
 
         if (typeof (args) !== 'object') {
           print(defaultC, args);
@@ -109,7 +113,7 @@
 
         for (; ini < args.length; ini++) {
 
-          if (DWEC.gFunctions.isNum(args[ini]) && (typeof (args[ini + 1]) !== 'object' || ini === 0)) {
+          if (dwecProject.gFunctions.isNum(args[ini]) && (typeof (args[ini + 1]) !== 'object' || ini === 0)) {
             print(args[ini], args[ini + 1]);
             ini++;
           } else if (typeof (args[ini]) === 'object') {
@@ -126,7 +130,34 @@
         console.exception(e);
       }
       console.groupEnd();
-    }
-  };
+    },
 
-})(window.DWEC);
+    /**
+     * Return a new random name
+     * @param name
+     * @returns {*}
+     */
+    getRandomName: function (name) {
+      return name + Math.floor(Math.random() * 500000);
+    },
+
+    /**
+     * Replace {id} by {id: "dwecProject1231"}
+     * @param str
+     * @param col
+     * @returns {XML|string|void|*|{js, css}|{css, less}}
+     */
+    format: function (str, col) {
+      col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
+      return str.replace(/\{\{|\}\}|\{(\w+)\}/g, function (m, n) {
+        if (m == "{{") {
+          return "{";
+        }
+        if (m == "}}") {
+          return "}";
+        }
+        return col[n];
+      });
+    }
+}
+})(window.jQuery);
