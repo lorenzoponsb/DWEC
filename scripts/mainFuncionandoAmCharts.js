@@ -1852,7 +1852,10 @@ $(document).ready(function () {
  /* console.log("INICIA!!!");
  console.log(grafica.data());
  console.log($('#am-graph').getCoachGate_Chart());*/
-  console.log(grafica)
+  console.log($.dwecProject);
+  console.log(grafica);
+  console.log(tabla);
+  console.log(JSON.stringify(dataTabla));
 
 
   $('#btnOn').click(function(){
@@ -1871,7 +1874,7 @@ $(document).ready(function () {
     console.log("c");
     console.log(c);
   });
-console.log(tabla,data);
+
 
 
 
