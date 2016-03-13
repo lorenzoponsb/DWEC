@@ -3,7 +3,7 @@
  *
  * Description:
  *
- *    - This plugin extends for amCharts.js and implements draggable options on bullets.
+ *    - This plugin generate a simple table.
  *
  * Requires:
  *
@@ -87,6 +87,13 @@
     $.dwecProject = {};
   }
 
+  /**
+   * Create a simple table
+   * @param el
+   * @param getData
+   * @param options
+   * @returns {{}|*}
+     */
   $.dwecProject.liveTable = function (el, getData, options) {
 
     // TODO LiveTable plugin
