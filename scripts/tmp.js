@@ -252,6 +252,28 @@ m.prototype.setPrivada = function(a,b){
   this.varsPrivadas[a] = b;
 };
 
+/*
+var e = new m();
+console.log(e);
+*/
+
+var e = {};
+e.t = {name: "soy t"};
+
+
+e.t.a = function(){
+  this.h = "soy H";
+this.n = this.name;
+
+};
+
+
+var p = new e.t.a();
+console.log(e);
+console.log(e.t);
+console.log(p);
+
+
 
 var coach = {prueba: "prueba"};
 
@@ -267,8 +289,6 @@ coach.gate = function(a){
   };
 
 
-
-return this;
 };
 
 var a = coach.gate.bind();

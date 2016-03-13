@@ -1721,6 +1721,117 @@ $(document).ready(function () {
   var chartOptions = getAmChartsData();
 
 
+  var dataTabla = [
+    [{
+      value: 5,
+      itemLabel: "12/05/2016"
+    }, {
+      value: 6,
+      itemLabel: "12/05/2016"
+    }, {
+      value: 7,
+      itemLabel: "12/05/2016"
+    }, {
+      value: 8,
+      itemLabel: "12/05/2016"
+    }, {
+      value: 9,
+      itemLabel: "12/05/2016"
+    }, {
+      value: 10,
+      itemLabel: "12/05/2016"
+    }, {
+      value: 11,
+      itemLabel: "12/05/2016"
+    }, {
+      value: 12,
+      itemLabel: "12/05/2016"
+    }],
+    [{
+      micropos: 5,
+      value: 100,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }, {
+      micropos: 6,
+      value: 8,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }, {
+      micropos: 7,
+      value: 8,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }, {
+      micropos: 8,
+      value: 8,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }, {
+      micropos: 9,
+      value: 8,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }, {
+      micropos: 10,
+      value: 8,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }, {
+      micropos: 11,
+      value: 8,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }, {
+      micropos: 12,
+      value: 8,
+      itemValue: "INTENSITY",
+      itemLabel: "intensity"
+    }],
+    [{
+      micropos: 5,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }, {
+      micropos: 6,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }, {
+      micropos: 7,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }, {
+      micropos: 8,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }, {
+      micropos: 9,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }, {
+      micropos: 10,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }, {
+      micropos: 11,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }, {
+      micropos: 12,
+      value: 8,
+      itemValue: "VOLUME",
+      itemLabel: "volume"
+    }],
+    []
+
+  ];
 
 
 
@@ -1733,56 +1844,16 @@ $(document).ready(function () {
 
  // console.log(getAmChartsData());
 
+  var tabla = new $.dwecProject.liveTable($('#liveTable'), null,{});
   var grafica = new  $.dwecProject.draggableChart($('#am-graph'),chartOptions,{});
+
+ // var grafica = $('#am-graph').dwecProjectDraggableChart(chartOptions, {});
+
  /* console.log("INICIA!!!");
  console.log(grafica.data());
  console.log($('#am-graph').getCoachGate_Chart());*/
- // console.log(grafica)
+  console.log(grafica)
 
-
-  var tmp = {"dataProvider": [
-    {
-      "date": "16/02/2016",
-      "id": 14,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    },
-    {
-      "date": "16/02/2016",
-      "id": 15,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    },
-    {
-      "date": "16/02/2016",
-      "id": 16,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    },
-    {
-      "date": "16/02/2016",
-      "id": 17,
-      "INTENSITY": 7,
-      "VOLUME": 6
-    }
-  ],
-    "graphs": [
-      {
-        "lineColor": "#a312b7",
-        "bullet": "round",
-        "title": "intensity",
-        "valueField": "INTENSITY",
-        "type": "smoothedLine"
-      },
-      {
-        "lineColor": "#723945",
-        "bullet": "round",
-        "title": "volume",
-        "valueField": "VOLUME",
-        "type": "smoothedLine"
-      }
-    ]};
-  console.log(grafica);
 
   $('#btnOn').click(function(){
     grafica.options.draggable = true;
@@ -1791,7 +1862,16 @@ $(document).ready(function () {
     grafica.options.draggable = false;
   });
 
+  $('#liveTable').on("change","td",function(a,b,c){
 
+    console.log("a");
+    console.log(a);
+    console.log("b");
+    console.log(b);
+    console.log("c");
+    console.log(c);
+  });
+console.log(tabla,data);
 
 
 
