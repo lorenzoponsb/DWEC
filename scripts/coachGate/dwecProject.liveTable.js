@@ -25,6 +25,15 @@
  *              object:     // Object of the current cell
  *            }
  *
+ *     - LiveTableReady:
+ *
+ *        - Description: It's launched when the table is printed
+ *
+ *        - Contains:
+ *            {
+ *              object:     // Plugin returnament
+ *            }
+ *
  * Examples:
  *
  *    - var data = [[{"value":5,"itemLabel":"12/05/2016"},{"value":6,"itemLabel":"12/05/2016"},{"value":7,"itemLabel":"12/05/2016"},{"value":8,"itemLabel":"12/05/2016"},{"value":9,"itemLabel":"12/05/2016"},{"value":10,"itemLabel":"12/05/2016"},{"value":11,"itemLabel":"12/05/2016"},{"value":12,"itemLabel":"12/05/2016"}],[{"micropos":5,"value":100,"itemValue":"INTENSITY","itemLabel":"intensity"},{"micropos":6,"value":8,"itemValue":"INTENSITY","itemLabel":"intensity"},{"micropos":7,"value":8,"itemValue":"INTENSITY","itemLabel":"intensity"},{"micropos":8,"value":8,"itemValue":"INTENSITY","itemLabel":"intensity"},{"micropos":9,"value":8,"itemValue":"INTENSITY","itemLabel":"intensity"},{"micropos":10,"value":8,"itemValue":"INTENSITY","itemLabel":"intensity"},{"micropos":11,"value":8,"itemValue":"INTENSITY","itemLabel":"intensity"},{"micropos":12,"value":8,"itemValue":"INTENSITY","itemLabel":"intensity"}],[{"micropos":5,"value":8,"itemValue":"VOLUME","itemLabel":"volume"},{"micropos":6,"value":8,"itemValue":"VOLUME","itemLabel":"volume"},{"micropos":7,"value":8,"itemValue":"VOLUME","itemLabel":"volume"},{"micropos":8,"value":8,"itemValue":"VOLUME","itemLabel":"volume"},{"micropos":9,"value":8,"itemValue":"VOLUME","itemLabel":"volume"},{"micropos":10,"value":8,"itemValue":"VOLUME","itemLabel":"volume"},{"micropos":11,"value":8,"itemValue":"VOLUME","itemLabel":"volume"},{"micropos":12,"value":8,"itemValue":"VOLUME","itemLabel":"volume"}],[]]
@@ -84,10 +93,10 @@
     var base = this;          // Reference to currrent object
     base.$el = $(el);         // Reference to jquery DOM object
     base.el = el;             // Selector
-    base.$el.data('dwecProject.DraggableChart', base); // Add a reverse reference to the DOM object
     base.getData = {};        // Contains the original data
     base.dataRendered = {};   // Contains the data rendered
-    var fn = {};              // Contains returnament object
+    base.fn = {};             // Contains returnament object
+    base.$el.data('dwecProject.DraggableChart', base.fn); // Add a reverse reference to the DOM object
 
     /**
      * Prepare before data
@@ -164,6 +173,12 @@
         // If the tooltips aren't initialize
         $('[data-toggle="tooltip"]').tooltip();
         base.syncData();
+
+        base.$el.trigger({
+          type: 'LiveTableReady',
+          object: base.fn
+        });
+
       } catch (e) {
         base.showMessage(0, e);
       }
@@ -182,7 +197,7 @@
         try {
           var row = $(this).attr("data-row");
           var col = $(this).attr("data-col");
-          var val = $(this).find('input [type=number]').val();
+          var val = $(this).find('input[type="number"]').val();
 
           if (row !== undefined && col !== undefined) {
 
@@ -237,7 +252,7 @@
     /**
      * Post data on the base.options.ajaxPost
      */
-    fn.post = function () {
+    base.fn.post = function () {
 
       // TODO Post prototype
       base.doAjax(base.options.ajaxPost, "POST", base.options.ajaxInvertDataRender(base.getData, base.dataRendered))
@@ -246,7 +261,7 @@
     /**
      * Put data on the base.options.ajaxPut
      */
-    fn.put = function () {
+    base.fn.put = function () {
 
       // TODO Put prototype
       base.doAjax(base.options.ajaxPut, "PUT", base.options.ajaxInvertDataRender(base.getData, base.dataRendered))
@@ -256,12 +271,12 @@
      * Reference of options
      */
       // TODO Options prototype
-    fn.options = base.options;
+    base.fn.options = base.options;
 
     /**
      * Get data, print data and set triggers
      */
-    fn.reloadAjax = function () {
+    base.fn.reloadAjax = function () {
 
       // TODO Reload ajax prototype
       base.initAjax();
@@ -272,7 +287,7 @@
      * @param newData
      * @returns {*}
      */
-    fn.data = function (newData) {
+    base.fn.data = function (newData) {
 
       // TODO Data prototype
       if (!newData)
@@ -287,7 +302,7 @@
      * @param newData
      * @returns {*}
      */
-    fn.dataRendered = function (newData) {
+    base.fn.dataRendered = function (newData) {
 
       // TODO Data render prototype
       if (!newData)
@@ -300,7 +315,7 @@
 
 
     // TODO Returnament
-    return fn;
+    return base.fn;
   };
 
   /**
@@ -325,7 +340,7 @@
     // Td render, if you want syncData and triggers, the nRow and nCol is required
     td: function (nRow, nCol, value, object, maxVal, minVal) {
 
-      return $.dwecProject.gFunctions.format("<td data-row='{nRow}' data-col='{nCol}' data-itemvalie='{itemValue}' data-toggle='tooltip' data-container='body' data-placement='top' data-trigger='hover' data-html='true' data-title='<b>{itemLabel}</b>' style='text-align: center; padding: 0;'><input type='number' max='{maxVal}' min='{minVal}' value='{value}' style='max-width: 42px'></td>", {
+      return $.dwecProject.gFunctions.format("<td data-row='{nRow}' data-col='{nCol}' data-itemvalue='{itemValue}' data-toggle='tooltip' data-container='body' data-placement='top' data-trigger='hover' data-html='true' data-title='<b>{itemLabel}</b>' style='text-align: center; padding: 0;'><input type='number' max='{maxVal}' min='{minVal}' value='{value}' style='max-width: 42px'></td>", {
         nRow: nRow,
         nCol: nCol,
         itemValue: object.itemValue,
@@ -355,10 +370,10 @@
     triggers: true,     // On data changed set the trigger
 
 
-    ajaxEnabled: true,  // If this option is available, the data is obtained for the ajaxGet and var getData is ignored
-    ajaxGet: "http://localhost:9000/liveTableData.json", // Specific the URL what you get the data
-    ajaxPost: "", // Specific the URL what you post the data
-    ajaxPut:  "", // Specific the URL what you put the data
+    ajaxEnabled: false,  // If this option is available, the data is obtained for the ajaxGet and var getData is ignored
+    ajaxGet:  "",        // Specific the URL what you get the data
+    ajaxPost: "",        // Specific the URL what you post the data
+    ajaxPut:  "",        // Specific the URL what you put the data
 
 
     // On post or put data with ajax
@@ -393,7 +408,7 @@
    * Get plugin of the actual jQuery selection
    * @returns {*}
    */
-  $.fn.getdwecProject_liveTable = function () {
+  $.fn.getDwecProject_liveTable = function () {
     return this.data("dwecProject.liveTable");
   };
 })(jQuery);

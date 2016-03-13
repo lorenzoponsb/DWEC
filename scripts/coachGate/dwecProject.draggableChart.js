@@ -22,9 +22,18 @@
  *            {
  *               chart,       // Is the amChart object,
  *               object,      // The actual content of dataProvider,
- *               index,       // Index of dataProvider array,
+ *               col,         // Col of the chart and is the index of dataProvider array,
  *               valueField,  // The object changed,
  *               value        // The new value
+ *            }
+ *
+ *     - DraggableChartReady:
+ *
+ *        - Description: It's launched when the table is printed
+ *
+ *        - Contains:
+ *            {
+ *              object:     // Plugin returnament
  *            }
  *
  * Examples:
@@ -88,10 +97,10 @@
     var base = this;          // Reference to currrent object
     base.$el = $(el);         // Reference to jquery DOM object
     base.el = el;             // Selector
-    base.$el.data('dwecProject.DraggableChart', base); // Add a reverse reference to the DOM object
     base.getData = {};   // Contains the original data
     base.amChartOptions = {}; // Contains the data rendered
-    var fn = {};              // Contains returnament object
+    base.fn = {};              // Contains returnament object
+    base.$el.data('dwecProject.DraggableChart', base.fn); // Add a reverse reference to the DOM object
 
     /**
      * Start the project
@@ -151,6 +160,10 @@
       base.amChart = window.AmCharts.makeChart(base.$el.attr('id'), base.amChartOptions);
       base.initCustomAfterAmChart();
       base.initListeners();
+      base.$el.trigger({
+        type: 'DraggableChartReady',
+        object: base.fn
+      });
     };
 
     /**
@@ -205,7 +218,7 @@
           }
 
           base.amChart.mouseTimeout = setTimeout(function () {
-            updatePositionAmChart();   //Call to drag element
+            base.updatePositionAmChart();   //Call to drag element
           }, 1);
 
         } catch (e) {
@@ -348,7 +361,7 @@
             type: 'DraggableChartRefresh',
             chart: base.amChart,
             object: object,
-            index: index,
+            col: index,
             valueField: valueField,
             value: valueRounded
           });
@@ -389,7 +402,7 @@
      * @param newData
      * @returns {*}
      */
-    fn.dataRendered = function (newData) {
+    base.fn.dataRendered = function (newData) {
 
       // TODO Fn Data, send or change dataProvider
       if (!newData) {
@@ -405,7 +418,7 @@
     /**
      * Post data on the base.options.ajaxPost
      */
-    fn.post = function () {
+    base.fn.post = function () {
 
       // TODO Post prototype
       base.doAjax(base.options.ajaxPost, "POST", base.options.ajaxInvertDataRender(base.getData, base.amChartOptions))
@@ -414,7 +427,7 @@
     /**
      * Put data on the base.options.ajaxPut
      */
-    fn.put = function () {
+    base.fn.put = function () {
 
       // TODO Put prototype
       base.doAjax(base.options.ajaxPut, "PUT", base.options.ajaxInvertDataRender(base.getData, base.amChartOptions))
@@ -424,18 +437,18 @@
      * Reference of options
      */
       // TODO Options prototype
-    fn.options = base.options;
+    base.fn.options = base.options;
 
     /**
      * Contains the amChart object
      * @type {*|{type: string, theme: string, legend: {useGraphSettings: boolean}, valueAxes: *[], chartCursor: {pan: boolean, zoomable: boolean, valueLineEnabled: boolean, valueLineBalloonEnabled: boolean, cursorAlpha: number, valueLineAlpha: number, cursorColor: string}, addClassNames: boolean, categoryField: string}}
      */
-    fn.amChart = base.amChart;
+    base.fn.amChart = base.amChart;
 
     /**
      * Get data, print data and set triggers
      */
-    fn.reloadAjax = function () {
+    base.fn.reloadAjax = function () {
 
       // TODO Reload ajax prototype
       base.initAjax();
@@ -446,7 +459,7 @@
      * @param newData
      * @returns {*}
      */
-    fn.data = function (newData) {
+    base.fn.data = function (newData) {
 
       // TODO Data prototype
       if (!newData)
@@ -456,7 +469,9 @@
       base.initGetData();
     };
 
-    return fn;
+
+    // TODO Returnament
+    return base.fn;
   };
 
   /**
@@ -539,7 +554,7 @@
    * Return if exist chart of the jQuery object: $('.nameClass').getdwecProjectDraggableChart();
    * @returns {*}
    */
-  $.fn.getdwecProject_draggableChart = function () {
+  $.fn.getDwecProject_draggableChart = function () {
     return this.data('dwecProject.DraggableChart');
   };
 

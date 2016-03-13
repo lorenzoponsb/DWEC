@@ -133,13 +133,31 @@
     },
 
     /**
+     * Return hexa random color
+     * @returns {string}
+     */
+    getRandomColor: function () {
+      return "#" + ((1 << 24) * Math.random() | 0).toString(16);
+    },
+
+    /**
+     * Return the language of browser
+     * @returns {string}
+     */
+    getBrowserLanguage: function () {
+      return window.navigator.language;
+    },
+
+    /**
      * Return a new random name
      * @param name
      * @returns {*}
      */
     getRandomName: function () {
       return Math.floor(Math.random() * 500000);
-    },
+    }
+
+    ,
 
     /**
      * Replace {id} by {id: "dwecProject1231"}
@@ -158,16 +176,19 @@
         }
         return col[n];
       });
-    },
+    }
+    ,
     doAjax: function (url, method, sendData, fOnSuccessCallback, fOnErrorCallback) {
 
       var showMessage = $.dwecProject.gFunctions.showMessage.bind();
 
-      if(!fOnSuccessCallback)
-        fOnSuccessCallback = function(){};
+      if (!fOnSuccessCallback)
+        fOnSuccessCallback = function () {
+        };
 
-      if(!fOnErrorCallback)
-        fOnErrorCallback = function(){};
+      if (!fOnErrorCallback)
+        fOnErrorCallback = function () {
+        };
 
       var callBackFunctions = {
 
@@ -194,10 +215,10 @@
         }
       };
       $.ajax({
-       /* headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },*/
+        /* headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json'
+         },*/
         url: url,
         method: method,
         //dataType: 'json',

@@ -1681,13 +1681,9 @@ $(document).ready(function () {
     var amChartsData = [];
     var parameters = {};
     var dataGraph = {
-      "type": "serial",
-      "theme": "light",
-
       "dataProvider": [],
       "graphs": [],
       "categoryField": "date"
-
     };
 
     $.each(datos, function (key, micro) {
@@ -1844,19 +1840,19 @@ $(document).ready(function () {
 
  // console.log(getAmChartsData());
 
-  var tabla = new $.dwecProject.liveTable($('#liveTable'), null,{});
+  var tabla = new $.dwecProject.liveTable($('#liveTable'), dataTabla,{});
   var grafica = new  $.dwecProject.draggableChart($('#am-graph'),chartOptions,{});
 
  // var grafica = $('#am-graph').dwecProjectDraggableChart(chartOptions, {});
 
  /* console.log("INICIA!!!");
  console.log(grafica.data());
- console.log($('#am-graph').getCoachGate_Chart());*/
+ console.log($('#am-graph').getCoachGate_Chart());
   console.log($.dwecProject);
   console.log(grafica);
   console.log(tabla);
   console.log(JSON.stringify(dataTabla));
-
+*/
 
   $('#btnOn').click(function(){
     grafica.options.draggable = true;
@@ -1865,15 +1861,15 @@ $(document).ready(function () {
     grafica.options.draggable = false;
   });
 
-  $('#liveTable').on("change","td",function(a,b,c){
-
-    console.log("a");
-    console.log(a);
-    console.log("b");
-    console.log(b);
-    console.log("c");
-    console.log(c);
+  $('#liveTable').on("LiveTableRefresh",function(event){
+    console.log(event);
   });
+
+  $('#am-graph').on("DraggableChartRefresh",function(event){
+    console.log(event);
+  });
+  console.log($('#am-graph').getDwecProject_draggableChart());
+
 
 
 
